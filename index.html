@@ -64,35 +64,10 @@ body {
     z-index: 10;
 }
 
-/* --- Navigation Buttons --- */
-.gallery-controls {
-    display: flex;
-    justify-content: space-between;
-    align-items: center;
-    width: 60%;
-    max-width: 600px;
-    margin: 10px 0 20px 0;
-}
-
-.gallery-controls button {
-    background-color: #008939;
-    color: white;
-    border: none;
-    border-radius: 3px;
-    padding: 10px 20px;
-    cursor: pointer;
-    font-size: 16px;
-    transition: background-color 0.2s;
-}
-
-.gallery-controls button:hover {
-    background-color: #0056b3;
-}
-
-/* --- Button Panel (now at bottom) --- */
+/* --- Bottom Panel --- */
 .button-panel {
     display: flex;
-    flex-wrap: wrap;
+    align-items: center;
     justify-content: center;
     background: grey;
     padding: 10px;
@@ -101,35 +76,46 @@ body {
     box-sizing: border-box;
 }
 
-.button-panel button {
-    margin: 5px;
-    padding: 10px 16px;
+/* --- Buttons --- */
+.scroll-btn {
+    background-color: #555;
+    color: white;
+    border: none;
+    border-radius: 3px;
+    font-size: 18px;
+    padding: 8px 14px;
+    margin: 0 10px;
+    cursor: pointer;
+    transition: background-color 0.2s;
+}
+
+.scroll-btn:hover {
+    background-color: #333;
+}
+
+.school-btn {
     background-color: #008939;
     color: white;
     border: none;
     border-radius: 3px;
-    cursor: pointer;
+    padding: 10px 16px;
     font-size: 14px;
+    cursor: pointer;
     transition: background-color 0.2s;
 }
 
-.button-panel button:hover {
+.school-btn:hover {
     background-color: #0056b3;
+}
+
+.school-btn.active {
+    background-color: #004d26; /* darker green for active */
 }
 
 /* --- Responsive --- */
 @media (max-width: 768px) {
     .container {
         width: 90%;
-    }
-
-    .gallery-controls {
-        width: 90%;
-    }
-
-    .gallery-controls button {
-        font-size: 14px;
-        padding: 8px 14px;
     }
 
     .image-display img {
@@ -141,12 +127,19 @@ body {
     .container {
         width: 95%;
     }
+
     .image-display img {
         max-height: 300px;
     }
-    .button-panel button {
+
+    .school-btn {
         font-size: 12px;
         padding: 8px 10px;
+    }
+
+    .scroll-btn {
+        font-size: 16px;
+        padding: 6px 10px;
     }
 }
 </style>
@@ -157,19 +150,12 @@ body {
             <a id="imageLink" href="#" target="_blank">
                 <img id="galleryImage" src="" alt="Gallery Image">
             </a>
-
-            <div class="gallery-controls">
-                <button onclick="prevImage()">⟵ Previous</button>
-                <button onclick="nextImage()">Next ⟶</button>
-            </div>
         </div>
 
         <div class="button-panel">
-            <button onclick="changeImage(0)">Aloeric Primary</button>
-            <button onclick="changeImage(1)">Fyanmore Primary</button>
-            <button onclick="changeImage(2)">Minster C of E</button>
-            <button onclick="changeImage(3)">Queens Crescent</button>
-            <button onclick="changeImage(4)">Staverton Primary</button>
+            <button class="scroll-btn" onclick="prevSchool()">&lt;</button>
+            <button id="schoolButton" class="school-btn"></button>
+            <button class="scroll-btn" onclick="nextSchool()">&gt;</button>
         </div>
     </div>
 
@@ -199,28 +185,40 @@ const images = [
 
 let currentIndex = 0;
 
-function changeImage(index) {
-    currentIndex = index;
+function updateGallery() {
     const galleryImage = document.getElementById("galleryImage");
     const imageLink = document.getElementById("imageLink");
+    const schoolButton = document.getElementById("schoolButton");
 
-    galleryImage.src = images[index].url;
-    imageLink.href = images[index].url;
-    galleryImage.alt = images[index].name;
+    const current = images[currentIndex];
+    galleryImage.src = current.url;
+    galleryImage.alt = current.name;
+    imageLink.href = current.url;
+    schoolButton.textContent = current.name;
 }
 
-function nextImage() {
+function changeImage(index) {
+    currentIndex = index;
+    updateGallery();
+}
+
+function nextSchool() {
     currentIndex = (currentIndex + 1) % images.length;
-    changeImage(currentIndex);
+    updateGallery();
 }
 
-function prevImage() {
+function prevSchool() {
     currentIndex = (currentIndex - 1 + images.length) % images.length;
-    changeImage(currentIndex);
+    updateGallery();
 }
 
-// Initialize default image
-changeImage(0);
+// Click on school button opens the image again
+document.getElementById("schoolButton").addEventListener("click", () => {
+    window.open(images[currentIndex].url, "_blank");
+});
+
+// Initialize
+updateGallery();
 </script>
 </body>
 </html>
