@@ -33,19 +33,19 @@ body {
     padding: 10px;
     background: grey;
     border-right: 1px solid #ddd;
-    width: 18%;
+    width: 20%;
     box-sizing: border-box;
 }
 
 .button-panel button {
     margin-bottom: 10px;
-    padding: 12px 24px;
+    padding: 12px 20px;
     background-color: #008939;
     color: white;
     border: none;
     border-radius: 3px;
     cursor: pointer;
-    font-size: 16px;
+    font-size: 15px;
     transition: background-color 0.2s;
 }
 
@@ -60,7 +60,7 @@ body {
     justify-content: center;
     align-items: center;
     padding: 20px;
-    width: 82%;
+    width: 80%;
     box-sizing: border-box;
 }
 
@@ -112,6 +112,7 @@ body {
     }
     .button-panel {
         flex-direction: row;
+        flex-wrap: wrap;
         width: 100%;
         border-right: none;
         border-bottom: 1px solid #ddd;
@@ -152,27 +153,70 @@ body {
 <body>
     <div class="container">
         <div class="button-panel">
-            <button onclick="changeImage('https://raw.githubusercontent.com/OzudPCL/Aloeric-School/refs/heads/main/Aloeric%20SS.png')">Aloeric Primary School</button>
-            <button onclick="changeImage('https://raw.githubusercontent.com/OzudPCL/Aloeric-School/refs/heads/main/Fyanmore%20SS.png')">Fyanmore Primary School</button>
-            <button onclick="changeImage('https://raw.githubusercontent.com/OzudPCL/Aloeric-School/refs/heads/main/Minster%20C%20of%20E%20Primary%20SS.png')">Minster C of E School</button>
-            <button onclick="changeImage('https://raw.githubusercontent.com/OzudPCL/Aloeric-School/refs/heads/main/Queens%20Crescent%20SS.png')">Queens Crescent Primary School</button>
-            <button onclick="changeImage('https://raw.githubusercontent.com/OzudPCL/Aloeric-School/refs/heads/main/Staverton%20SS.png')">Staverton Primary School</button>
+            <button onclick="prevImage()">⟵ Previous</button>
+            <button onclick="changeImage(0)">Aloeric Primary</button>
+            <button onclick="changeImage(1)">Fyanmore Primary</button>
+            <button onclick="changeImage(2)">Minster C of E</button>
+            <button onclick="changeImage(3)">Queens Crescent</button>
+            <button onclick="changeImage(4)">Staverton Primary</button>
+            <button onclick="nextImage()">Next ⟶</button>
         </div>
+
         <div class="image-display">
-            <a id="imageLink" href="https://raw.githubusercontent.com/OzudPCL/Aloeric-School/refs/heads/main/Staverton%20SS.png" target="_blank">
-                <img id="galleryImage" src="https://raw.githubusercontent.com/OzudPCL/Aloeric-School/refs/heads/main/Staverton%20SS.png" alt="Gallery Image">
+            <a id="imageLink" href="#" target="_blank">
+                <img id="galleryImage" src="" alt="Gallery Image">
             </a>
         </div>
     </div>
 
 <script>
-function changeImage(imagePath) {
+const images = [
+    {
+        name: "Aloeric Primary School",
+        url: "https://raw.githubusercontent.com/OzudPCL/Aloeric-School/refs/heads/main/Aloeric%20SS.png"
+    },
+    {
+        name: "Fyanmore Primary School",
+        url: "https://raw.githubusercontent.com/OzudPCL/Aloeric-School/refs/heads/main/Fyanmore%20SS.png"
+    },
+    {
+        name: "Minster C of E School",
+        url: "https://raw.githubusercontent.com/OzudPCL/Aloeric-School/refs/heads/main/Minster%20C%20of%20E%20Primary%20SS.png"
+    },
+    {
+        name: "Queens Crescent Primary School",
+        url: "https://raw.githubusercontent.com/OzudPCL/Aloeric-School/refs/heads/main/Queens%20Crescent%20SS.png"
+    },
+    {
+        name: "Staverton Primary School",
+        url: "https://raw.githubusercontent.com/OzudPCL/Aloeric-School/refs/heads/main/Staverton%20SS.png"
+    }
+];
+
+let currentIndex = 0;
+
+function changeImage(index) {
+    currentIndex = index;
     const galleryImage = document.getElementById("galleryImage");
     const imageLink = document.getElementById("imageLink");
 
-    galleryImage.src = imagePath;
-    imageLink.href = imagePath;
+    galleryImage.src = images[index].url;
+    imageLink.href = images[index].url;
+    galleryImage.alt = images[index].name;
 }
+
+function nextImage() {
+    currentIndex = (currentIndex + 1) % images.length;
+    changeImage(currentIndex);
+}
+
+function prevImage() {
+    currentIndex = (currentIndex - 1 + images.length) % images.length;
+    changeImage(currentIndex);
+}
+
+// Initialize default image
+changeImage(0);
 </script>
 </body>
 </html>
