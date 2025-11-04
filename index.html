@@ -1,0 +1,178 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>School Gallery</title>
+<style>
+body {
+    font-family: Arial, sans-serif;
+    margin: 0;
+    padding: 0;
+    background-color: #f4f4f4;
+}
+
+/* --- Container --- */
+.container {
+    display: flex;
+    flex-direction: row;
+    background: white;
+    border: 1px solid #ddd;
+    box-shadow: 0 2px 5px rgba(0, 0, 0, 0.2);
+    border-radius: 5px;
+    margin: 20px auto;
+    width: 60%;
+    max-width: 1400px;
+    transition: all 0.3s ease;
+}
+
+/* --- Button Panel --- */
+.button-panel {
+    display: flex;
+    flex-direction: column;
+    padding: 10px;
+    background: grey;
+    border-right: 1px solid #ddd;
+    width: 18%;
+    box-sizing: border-box;
+}
+
+.button-panel button {
+    margin-bottom: 10px;
+    padding: 12px 24px;
+    background-color: #008939;
+    color: white;
+    border: none;
+    border-radius: 3px;
+    cursor: pointer;
+    font-size: 16px;
+    transition: background-color 0.2s;
+}
+
+.button-panel button:hover {
+    background-color: #0056b3;
+}
+
+/* --- Image Display --- */
+.image-display {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    padding: 20px;
+    width: 82%;
+    box-sizing: border-box;
+}
+
+.image-display img {
+    max-width: 100%;
+    height: auto;
+    max-height: 700px;
+    border-radius: 5px;
+    object-fit: contain;
+    margin-bottom: 10px;
+}
+
+.image-display a {
+    position: relative;
+}
+
+.image-display a:hover::after {
+    content: "Click on image to open full res image";
+    position: absolute;
+    bottom: -30px;
+    left: 50%;
+    transform: translateX(-50%);
+    background-color: #333;
+    color: #fff;
+    padding: 5px 10px;
+    border-radius: 5px;
+    font-size: 14px;
+    white-space: nowrap;
+    z-index: 10;
+}
+
+/* --- Responsive --- */
+@media (max-width: 1024px) {
+    .container {
+        width: 80%;
+    }
+    .button-panel {
+        width: 25%;
+    }
+    .image-display {
+        width: 75%;
+    }
+}
+
+@media (max-width: 768px) {
+    .container {
+        flex-direction: column;
+        width: 90%;
+    }
+    .button-panel {
+        flex-direction: row;
+        width: 100%;
+        border-right: none;
+        border-bottom: 1px solid #ddd;
+        justify-content: space-around;
+        overflow-x: auto;
+        padding-bottom: 10px;
+    }
+    .button-panel button {
+        flex: 1;
+        margin: 5px;
+        font-size: 14px;
+        padding: 10px;
+        white-space: nowrap;
+    }
+    .image-display {
+        width: 100%;
+        padding: 10px;
+    }
+    .image-display img {
+        max-height: 400px;
+    }
+}
+
+@media (max-width: 480px) {
+    .container {
+        width: 95%;
+    }
+    .button-panel button {
+        font-size: 12px;
+        padding: 8px;
+    }
+    .image-display img {
+        max-height: 300px;
+    }
+}
+</style>
+</head>
+<body>
+    <div class="container">
+        <div class="button-panel">
+            <button onclick="changeImage('https://raw.githubusercontent.com/OzudPCL/Aloeric-School/refs/heads/main/Aloeric%20SS.png')">Aloeric Primary School</button>
+            <button onclick="changeImage('https://raw.githubusercontent.com/OzudPCL/Aloeric-School/refs/heads/main/Fyanmore%20SS.png')">Fyanmore Primary School</button>
+            <button onclick="changeImage('https://raw.githubusercontent.com/OzudPCL/Aloeric-School/refs/heads/main/Minster%20C%20of%20E%20Primary%20SS.png')">Minster C of E School</button>
+            <button onclick="changeImage('https://raw.githubusercontent.com/OzudPCL/Aloeric-School/refs/heads/main/Queens%20Crescent%20SS.png')">Queens Crescent Primary School</button>
+            <button onclick="changeImage('https://raw.githubusercontent.com/OzudPCL/Aloeric-School/refs/heads/main/Staverton%20SS.png')">Staverton Primary School</button>
+        </div>
+        <div class="image-display">
+            <a id="imageLink" href="https://raw.githubusercontent.com/OzudPCL/Aloeric-School/refs/heads/main/Staverton%20SS.png" target="_blank">
+                <img id="galleryImage" src="https://raw.githubusercontent.com/OzudPCL/Aloeric-School/refs/heads/main/Staverton%20SS.png" alt="Gallery Image">
+            </a>
+        </div>
+    </div>
+
+<script>
+function changeImage(imagePath) {
+    const galleryImage = document.getElementById("galleryImage");
+    const imageLink = document.getElementById("imageLink");
+
+    galleryImage.src = imagePath;
+    imageLink.href = imagePath;
+}
+</script>
+</body>
+</html>
