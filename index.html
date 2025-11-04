@@ -6,10 +6,14 @@
 <title>School Gallery</title>
 <style>
 body {
-    font-family: Arial, sans-serif;
+    font-family: 'Segoe UI', Arial, sans-serif;
     margin: 0;
     padding: 0;
-    background-color: #f4f4f4;
+    background: linear-gradient(135deg, #d9fdd3, #f4f4f4);
+    min-height: 100vh;
+    display: flex;
+    align-items: center;
+    justify-content: center;
 }
 
 /* --- Container --- */
@@ -17,12 +21,11 @@ body {
     display: flex;
     flex-direction: column;
     background: white;
-    border: 1px solid #ddd;
-    box-shadow: 0 2px 5px rgba(0, 0, 0, 0.2);
-    border-radius: 5px;
-    margin: 20px auto;
-    width: 70%;
-    max-width: 1000px;
+    border-radius: 16px;
+    overflow: hidden;
+    box-shadow: 0 8px 25px rgba(0, 0, 0, 0.15);
+    width: 80%;
+    max-width: 900px;
     transition: all 0.3s ease;
 }
 
@@ -32,34 +35,46 @@ body {
     flex-direction: column;
     justify-content: center;
     align-items: center;
-    padding: 20px;
-    box-sizing: border-box;
+    padding: 25px;
+    background-color: #ffffff;
+    position: relative;
 }
 
 .image-display img {
     max-width: 100%;
     height: auto;
-    max-height: 650px;
-    border-radius: 5px;
+    max-height: 600px;
+    border-radius: 12px;
     object-fit: contain;
     margin-bottom: 15px;
+    opacity: 0;
+    transform: scale(0.98);
+    animation: fadeIn 0.5s forwards;
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
 }
 
+@keyframes fadeIn {
+    to {
+        opacity: 1;
+        transform: scale(1);
+    }
+}
+
+/* --- Tooltip on Hover --- */
 .image-display a {
     position: relative;
 }
-
 .image-display a:hover::after {
-    content: "Click on image to open full res image";
+    content: "Click image for full resolution";
     position: absolute;
     bottom: -30px;
     left: 50%;
     transform: translateX(-50%);
-    background-color: #333;
+    background: rgba(0, 0, 0, 0.75);
     color: #fff;
-    padding: 5px 10px;
-    border-radius: 5px;
-    font-size: 14px;
+    padding: 5px 12px;
+    border-radius: 6px;
+    font-size: 13px;
     white-space: nowrap;
     z-index: 10;
 }
@@ -69,47 +84,47 @@ body {
     display: flex;
     align-items: center;
     justify-content: center;
-    background: grey;
-    padding: 10px;
-    border-top: 1px solid #ddd;
-    border-radius: 0 0 5px 5px;
-    box-sizing: border-box;
+    background: rgba(40, 40, 40, 0.8);
+    backdrop-filter: blur(8px);
+    padding: 12px;
+    border-top: 1px solid rgba(255, 255, 255, 0.1);
 }
 
 /* --- Buttons --- */
 .scroll-btn {
-    background-color: #555;
+    background: rgba(255, 255, 255, 0.15);
     color: white;
     border: none;
-    border-radius: 3px;
-    font-size: 18px;
-    padding: 8px 14px;
-    margin: 0 10px;
+    border-radius: 50%;
+    font-size: 20px;
+    padding: 10px;
+    margin: 0 20px;
     cursor: pointer;
-    transition: background-color 0.2s;
+    transition: all 0.25s ease;
 }
-
 .scroll-btn:hover {
-    background-color: #333;
+    background: rgba(255, 255, 255, 0.35);
+    transform: scale(1.15);
 }
 
+/* --- School Button --- */
 .school-btn {
-    background-color: #008939;
+    background: #00a851;
     color: white;
     border: none;
-    border-radius: 3px;
-    padding: 10px 16px;
-    font-size: 14px;
+    border-radius: 8px;
+    padding: 12px 24px;
+    font-size: 15px;
     cursor: pointer;
-    transition: background-color 0.2s;
+    transition: all 0.25s ease;
+    box-shadow: 0 2px 8px rgba(0, 168, 81, 0.3);
 }
-
 .school-btn:hover {
-    background-color: #0056b3;
+    background: #00893f;
+    box-shadow: 0 4px 12px rgba(0, 168, 81, 0.45);
 }
-
-.school-btn.active {
-    background-color: #004d26; /* darker green for active */
+.school-btn:active {
+    transform: scale(0.97);
 }
 
 /* --- Responsive --- */
@@ -120,6 +135,11 @@ body {
 
     .image-display img {
         max-height: 400px;
+    }
+
+    .school-btn {
+        font-size: 14px;
+        padding: 10px 18px;
     }
 }
 
@@ -134,12 +154,12 @@ body {
 
     .school-btn {
         font-size: 12px;
-        padding: 8px 10px;
+        padding: 8px 14px;
     }
 
     .scroll-btn {
-        font-size: 16px;
-        padding: 6px 10px;
+        margin: 0 10px;
+        font-size: 18px;
     }
 }
 </style>
@@ -153,9 +173,9 @@ body {
         </div>
 
         <div class="button-panel">
-            <button class="scroll-btn" onclick="prevSchool()">&lt;</button>
+            <button class="scroll-btn" onclick="prevSchool()">&#10094;</button>
             <button id="schoolButton" class="school-btn"></button>
-            <button class="scroll-btn" onclick="nextSchool()">&gt;</button>
+            <button class="scroll-btn" onclick="nextSchool()">&#10095;</button>
         </div>
     </div>
 
@@ -189,17 +209,17 @@ function updateGallery() {
     const galleryImage = document.getElementById("galleryImage");
     const imageLink = document.getElementById("imageLink");
     const schoolButton = document.getElementById("schoolButton");
-
     const current = images[currentIndex];
-    galleryImage.src = current.url;
-    galleryImage.alt = current.name;
-    imageLink.href = current.url;
-    schoolButton.textContent = current.name;
-}
 
-function changeImage(index) {
-    currentIndex = index;
-    updateGallery();
+    // Fade in effect
+    galleryImage.style.opacity = 0;
+    setTimeout(() => {
+        galleryImage.src = current.url;
+        galleryImage.alt = current.name;
+        imageLink.href = current.url;
+        schoolButton.textContent = current.name;
+        galleryImage.style.opacity = 1;
+    }, 150);
 }
 
 function nextSchool() {
@@ -212,12 +232,10 @@ function prevSchool() {
     updateGallery();
 }
 
-// Click on school button opens the image again
 document.getElementById("schoolButton").addEventListener("click", () => {
     window.open(images[currentIndex].url, "_blank");
 });
 
-// Initialize
 updateGallery();
 </script>
 </body>
