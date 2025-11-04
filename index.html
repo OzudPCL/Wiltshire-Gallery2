@@ -15,42 +15,15 @@ body {
 /* --- Container --- */
 .container {
     display: flex;
-    flex-direction: row;
+    flex-direction: column;
     background: white;
     border: 1px solid #ddd;
     box-shadow: 0 2px 5px rgba(0, 0, 0, 0.2);
     border-radius: 5px;
     margin: 20px auto;
-    width: 60%;
-    max-width: 1400px;
+    width: 70%;
+    max-width: 1000px;
     transition: all 0.3s ease;
-}
-
-/* --- Button Panel --- */
-.button-panel {
-    display: flex;
-    flex-direction: column;
-    padding: 10px;
-    background: grey;
-    border-right: 1px solid #ddd;
-    width: 20%;
-    box-sizing: border-box;
-}
-
-.button-panel button {
-    margin-bottom: 10px;
-    padding: 12px 20px;
-    background-color: #008939;
-    color: white;
-    border: none;
-    border-radius: 3px;
-    cursor: pointer;
-    font-size: 15px;
-    transition: background-color 0.2s;
-}
-
-.button-panel button:hover {
-    background-color: #0056b3;
 }
 
 /* --- Image Display --- */
@@ -60,17 +33,16 @@ body {
     justify-content: center;
     align-items: center;
     padding: 20px;
-    width: 80%;
     box-sizing: border-box;
 }
 
 .image-display img {
     max-width: 100%;
     height: auto;
-    max-height: 700px;
+    max-height: 650px;
     border-radius: 5px;
     object-fit: contain;
-    margin-bottom: 10px;
+    margin-bottom: 15px;
 }
 
 .image-display a {
@@ -92,45 +64,74 @@ body {
     z-index: 10;
 }
 
-/* --- Responsive --- */
-@media (max-width: 1024px) {
-    .container {
-        width: 80%;
-    }
-    .button-panel {
-        width: 25%;
-    }
-    .image-display {
-        width: 75%;
-    }
+/* --- Navigation Buttons --- */
+.gallery-controls {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    width: 60%;
+    max-width: 600px;
+    margin: 10px 0 20px 0;
 }
 
+.gallery-controls button {
+    background-color: #008939;
+    color: white;
+    border: none;
+    border-radius: 3px;
+    padding: 10px 20px;
+    cursor: pointer;
+    font-size: 16px;
+    transition: background-color 0.2s;
+}
+
+.gallery-controls button:hover {
+    background-color: #0056b3;
+}
+
+/* --- Button Panel (now at bottom) --- */
+.button-panel {
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: center;
+    background: grey;
+    padding: 10px;
+    border-top: 1px solid #ddd;
+    border-radius: 0 0 5px 5px;
+    box-sizing: border-box;
+}
+
+.button-panel button {
+    margin: 5px;
+    padding: 10px 16px;
+    background-color: #008939;
+    color: white;
+    border: none;
+    border-radius: 3px;
+    cursor: pointer;
+    font-size: 14px;
+    transition: background-color 0.2s;
+}
+
+.button-panel button:hover {
+    background-color: #0056b3;
+}
+
+/* --- Responsive --- */
 @media (max-width: 768px) {
     .container {
-        flex-direction: column;
         width: 90%;
     }
-    .button-panel {
-        flex-direction: row;
-        flex-wrap: wrap;
-        width: 100%;
-        border-right: none;
-        border-bottom: 1px solid #ddd;
-        justify-content: space-around;
-        overflow-x: auto;
-        padding-bottom: 10px;
+
+    .gallery-controls {
+        width: 90%;
     }
-    .button-panel button {
-        flex: 1;
-        margin: 5px;
+
+    .gallery-controls button {
         font-size: 14px;
-        padding: 10px;
-        white-space: nowrap;
+        padding: 8px 14px;
     }
-    .image-display {
-        width: 100%;
-        padding: 10px;
-    }
+
     .image-display img {
         max-height: 400px;
     }
@@ -140,32 +141,35 @@ body {
     .container {
         width: 95%;
     }
-    .button-panel button {
-        font-size: 12px;
-        padding: 8px;
-    }
     .image-display img {
         max-height: 300px;
+    }
+    .button-panel button {
+        font-size: 12px;
+        padding: 8px 10px;
     }
 }
 </style>
 </head>
 <body>
     <div class="container">
+        <div class="image-display">
+            <a id="imageLink" href="#" target="_blank">
+                <img id="galleryImage" src="" alt="Gallery Image">
+            </a>
+
+            <div class="gallery-controls">
+                <button onclick="prevImage()">⟵ Previous</button>
+                <button onclick="nextImage()">Next ⟶</button>
+            </div>
+        </div>
+
         <div class="button-panel">
-            <button onclick="prevImage()">⟵ Previous</button>
             <button onclick="changeImage(0)">Aloeric Primary</button>
             <button onclick="changeImage(1)">Fyanmore Primary</button>
             <button onclick="changeImage(2)">Minster C of E</button>
             <button onclick="changeImage(3)">Queens Crescent</button>
             <button onclick="changeImage(4)">Staverton Primary</button>
-            <button onclick="nextImage()">Next ⟶</button>
-        </div>
-
-        <div class="image-display">
-            <a id="imageLink" href="#" target="_blank">
-                <img id="galleryImage" src="" alt="Gallery Image">
-            </a>
         </div>
     </div>
 
